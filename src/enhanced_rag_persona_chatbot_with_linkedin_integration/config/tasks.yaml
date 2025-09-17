@@ -1,0 +1,38 @@
+---
+scrape_linkedin_profile_data:
+  description: Access the LinkedIn profile at {linkedin_url} and extract comprehensive
+    professional and personal information. Focus on gathering work experience, education
+    history, skills, endorsements, accomplishments, volunteer work, and any personal
+    insights or posts that reveal personality traits and interests. Organize the extracted
+    data in a structured format for persona analysis.
+  expected_output: A comprehensive LinkedIn profile data extract containing structured
+    information about professional experience, education, skills, endorsements, accomplishments,
+    personal interests, and any available personality indicators from the profile
+    and recent activity.
+  agent: linkedin_profile_scraper
+process_persona_data:
+  description: Analyze and comprehend the provided persona content from {persona_content}
+    and integrate it with LinkedIn profile information to create a comprehensive knowledge
+    base. Extract and organize all relevant information including background, professional
+    experience, skills, interests, achievements, personality traits, and any other
+    details from both the persona document and LinkedIn data that could be useful
+    for answering questions about the person.
+  expected_output: A comprehensive knowledge summary that combines information from
+    both the persona text and LinkedIn profile data in a clear, structured format
+    including professional background, personal interests, skills, experiences, achievements,
+    personality characteristics, and professional network insights.
+  agent: document_knowledge_manager
+  context:
+  - scrape_linkedin_profile_data
+answer_user_question:
+  description: 'Using the knowledge base created from the persona document, provide
+    a comprehensive and engaging answer to the user''s question: {user_question}.
+    Draw upon all available information to give accurate, helpful responses that reflect
+    the person''s background and personality.'
+  expected_output: A conversational, informative response to the user's question that
+    accurately represents the persona based on the information from the document.
+    The response should be engaging, helpful, and maintain the person's voice and
+    style.
+  agent: persona_chatbot
+  context:
+  - process_persona_data
